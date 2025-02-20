@@ -6,6 +6,9 @@ def main():
     clock = pygame.time.Clock()
     framerate = 60
     dt = 0
+    updateable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    Player.containers = (updateable, drawable)
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     print("Starting asteroids!")
     print(f"Screen width: {SCREEN_WIDTH}")
@@ -16,8 +19,9 @@ def main():
             if event.type == pygame.QUIT:
                 return
         pygame.Surface.fill(screen, (0,0,0))
-        player.draw(screen)
-        player.update(dt)
+        updateable.update(dt)
+        for entities in drawable:
+            entities.draw(screen)
         pygame.display.flip()
         clock.tick(60)
         dt = ((clock.tick(60))/1000)
